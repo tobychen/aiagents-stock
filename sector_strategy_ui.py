@@ -128,12 +128,12 @@ def display_analysis_tab():
     with col2:
         st.write("")
         st.write("")
-        analyze_button = st.button("🚀 开始智策分析", type="primary", width='content')
+        analyze_button = st.button("🚀 开始智策分析", type="primary")
     
     with col3:
         st.write("")
         st.write("")
-        if st.button("🔄 清除结果", width='content'):
+        if st.button("🔄 清除结果"):
             if 'sector_strategy_result' in st.session_state:
                 del st.session_state.sector_strategy_result
             st.success("已清除分析结果")
@@ -783,7 +783,7 @@ def display_pdf_export_section(result):
         st.write("将分析报告导出为PDF或Markdown文件，方便保存和分享")
     
     with col2:
-        if st.button("📥 生成PDF报告", type="primary", width='content'):
+        if st.button("📥 生成PDF报告", type="primary"):
             with st.spinner("正在生成PDF报告..."):
                 try:
                     # 生成PDF
@@ -805,7 +805,7 @@ def display_pdf_export_section(result):
                     st.error(f"❌ PDF生成失败: {str(e)}")
     
     with col3:
-        if st.button("📝 生成Markdown", type="secondary", width='content'):
+        if st.button("📝 生成Markdown", type="secondary"):
             with st.spinner("正在生成Markdown报告..."):
                 try:
                     # 生成Markdown内容
@@ -1069,7 +1069,7 @@ def display_scheduler_settings():
             
             with col_a:
                 if not status['running']:
-                    if st.button("▶️ 启动", width='content', type="primary"):
+                    if st.button("▶️ 启动", type="primary"):
                         if sector_strategy_scheduler.start(schedule_time_str):
                             st.success(f"✅ 定时任务已启动！每天 {schedule_time_str} 运行")
                             time.sleep(1)
@@ -1077,7 +1077,7 @@ def display_scheduler_settings():
                         else:
                             st.error("❌ 启动失败")
                 else:
-                    if st.button("⏹️ 停止", width='content'):
+                    if st.button("⏹️ 停止"):
                         if sector_strategy_scheduler.stop():
                             st.success("✅ 定时任务已停止")
                             time.sleep(1)
@@ -1086,13 +1086,13 @@ def display_scheduler_settings():
                             st.error("❌ 停止失败")
             
             with col_b:
-                if st.button("🔄 立即运行", width='content'):
+                if st.button("🔄 立即运行"):
                     with st.spinner("正在运行分析..."):
                         sector_strategy_scheduler.manual_run()
                     st.success("✅ 手动分析完成！")
             
             with col_c:
-                if st.button("📧 测试邮件", width='content'):
+                if st.button("📧 测试邮件"):
                     test_email_notification()
         
         # 邮件配置检查

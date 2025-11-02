@@ -23,23 +23,59 @@ class LonghubangPDFGenerator:
         self.setup_fonts()
         
     def setup_fonts(self):
-        """设置中文字体"""
+        """设置中文字体 - 支持Windows、macOS和Linux"""
         try:
-            # 尝试注册常见的中文字体
-            font_paths = [
+            # 检查是否已经注册过
+            if 'ChineseFont' in pdfmetrics.getRegisteredFontNames():
+                self.chinese_font = 'ChineseFont'
+                return
+            
+            # Windows系统字体路径
+            windows_font_paths = [
                 'C:/Windows/Fonts/msyh.ttc',  # 微软雅黑
                 'C:/Windows/Fonts/simsun.ttc',  # 宋体
                 'C:/Windows/Fonts/simhei.ttf',  # 黑体
             ]
             
-            for font_path in font_paths:
+            # macOS系统字体路径
+            macos_font_paths = [
+                '/System/Library/Fonts/STHeiti Medium.ttc',  # 黑体-中
+                '/System/Library/Fonts/STHeiti Light.ttc',   # 黑体-细
+                '/System/Library/Fonts/PingFang.ttc',         # 苹方
+                '/Library/Fonts/Arial Unicode.ttf',           # Arial Unicode
+            ]
+            
+            # Linux系统字体路径
+            linux_font_paths = [
+                '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
+                '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
+                '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+            ]
+            
+            # 合并所有字体路径
+            all_font_paths = windows_font_paths + macos_font_paths + linux_font_paths
+            
+            for font_path in all_font_paths:
                 if os.path.exists(font_path):
                     try:
-                        pdfmetrics.registerFont(TTFont('ChineseFont', font_path))
-                        self.chinese_font = 'ChineseFont'
-                        print(f"[PDF] 成功加载字体: {font_path}")
-                        return
-                    except:
+                        if font_path.endswith('.ttc'):
+                            # TTC文件直接尝试注册
+                            try:
+                                pdfmetrics.registerFont(TTFont('ChineseFont', font_path))
+                                self.chinese_font = 'ChineseFont'
+                                print(f"[PDF] 成功加载字体: {font_path}")
+                                return
+                            except Exception as e:
+                                print(f"[PDF] 尝试加载TTC字体 {font_path} 失败: {e}")
+                                continue
+                        else:
+                            # TTF文件直接注册
+                            pdfmetrics.registerFont(TTFont('ChineseFont', font_path))
+                            self.chinese_font = 'ChineseFont'
+                            print(f"[PDF] 成功加载字体: {font_path}")
+                            return
+                    except Exception as e:
+                        print(f"[PDF] 尝试加载字体 {font_path} 失败: {e}")
                         continue
             
             # 如果都失败，使用默认字体

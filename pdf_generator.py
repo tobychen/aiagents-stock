@@ -21,7 +21,7 @@ import tempfile
 import os
 
 def register_chinese_fonts():
-    """注册中文字体 - 支持Windows和Linux系统"""
+    """注册中文字体 - 支持Windows、macOS和Linux系统"""
     try:
         # 检查是否已经注册过
         if 'ChineseFont' in pdfmetrics.getRegisteredFontNames():
@@ -35,6 +35,16 @@ def register_chinese_fonts():
             'C:/Windows/Fonts/msyh.ttf',    # 微软雅黑（TTF格式）
         ]
         
+        # macOS系统字体路径
+        macos_font_paths = [
+            '/System/Library/Fonts/STHeiti Medium.ttc',  # 黑体-中
+            '/System/Library/Fonts/STHeiti Light.ttc',   # 黑体-细
+            '/System/Library/Fonts/PingFang.ttc',         # 苹方
+            '/Library/Fonts/Arial Unicode.ttf',           # Arial Unicode
+            '/System/Library/Fonts/Supplemental/Songti.ttc',  # 宋体
+            '/System/Library/Fonts/Supplemental/Kaiti.ttc',   # 楷体
+        ]
+        
         # Linux系统字体路径（Docker环境）
         linux_font_paths = [
             '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',  # 文泉驿正黑
@@ -45,22 +55,34 @@ def register_chinese_fonts():
         ]
         
         # 合并所有可能的字体路径
-        all_font_paths = windows_font_paths + linux_font_paths
+        all_font_paths = windows_font_paths + macos_font_paths + linux_font_paths
         
         # 尝试注册字体
         for font_path in all_font_paths:
             if os.path.exists(font_path):
                 try:
-                    pdfmetrics.registerFont(TTFont('ChineseFont', font_path))
-                    print(f"✅ 成功注册中文字体: {font_path}")
-                    return 'ChineseFont'
+                    # TTC文件需要特殊处理：如果文件路径包含.ttc，尝试直接注册
+                    if font_path.endswith('.ttc'):
+                        # 对于TTC文件，尝试直接注册（reportlab支持TTC文件）
+                        try:
+                            pdfmetrics.registerFont(TTFont('ChineseFont', font_path))
+                            print(f"✅ 成功注册中文字体: {font_path}")
+                            return 'ChineseFont'
+                        except Exception as e1:
+                            print(f"⚠️ 尝试注册TTC字体 {font_path} 失败: {e1}")
+                            continue
+                    else:
+                        # TTF文件直接注册
+                        pdfmetrics.registerFont(TTFont('ChineseFont', font_path))
+                        print(f"✅ 成功注册中文字体: {font_path}")
+                        return 'ChineseFont'
                 except Exception as e:
                     print(f"⚠️ 尝试注册字体 {font_path} 失败: {e}")
                     continue
         
         # 如果没有找到中文字体，打印警告并使用默认字体
         print("⚠️ 警告：未找到中文字体，PDF中文可能显示为方框")
-        print("建议：在Docker中安装中文字体包")
+        print("建议：安装中文字体或使用支持中文的字体路径")
         return 'Helvetica'
     except Exception as e:
         print(f"❌ 注册中文字体时出错: {e}")
@@ -395,7 +417,7 @@ def display_pdf_export_section(stock_info, agents_results, discussion_result, fi
         markdown_button_key = f"markdown_btn_{stock_info.get('symbol', 'unknown')}"
         
         # 生成PDF报告按钮
-        if st.button("📄 生成并下载PDF报告", type="primary", width='content', key=pdf_button_key):
+        if st.button("📄 生成并下载PDF报告", type="primary", key=pdf_button_key):
             with st.spinner("正在生成PDF报告..."):
                 try:
                     # 生成PDF内容
@@ -427,7 +449,7 @@ def display_pdf_export_section(stock_info, agents_results, discussion_result, fi
                     st.error(f"详细错误信息: {traceback.format_exc()}")
         
         # 生成Markdown报告按钮
-        if st.button("📝 生成并下载Markdown报告", type="secondary", width='content', key=markdown_button_key):
+        if st.button("📝 生成并下载Markdown报告", type="secondary", key=markdown_button_key):
             with st.spinner("正在生成Markdown报告..."):
                 try:
                     # 生成Markdown内容

@@ -291,7 +291,7 @@ def main():
         st.markdown("### 🔍 功能导航")
 
         # 🏠 单股分析（首页）
-        if st.button("🏠 股票分析", width='stretch', key="nav_home", help="返回首页，进行单只股票的深度分析"):
+        if st.button("🏠 股票分析", key="nav_home", help="返回首页，进行单只股票的深度分析"):
             # 清除所有功能页面标志
             for key in ['show_history', 'show_monitor', 'show_config', 'show_main_force',
                        'show_sector_strategy', 'show_longhubang', 'show_portfolio']:
@@ -304,7 +304,7 @@ def main():
         with st.expander("🎯 选股板块", expanded=True):
             st.markdown("**根据不同策略筛选优质股票**")
 
-            if st.button("💰 主力选股", width='stretch', key="nav_main_force", help="基于主力资金流向的选股策略"):
+            if st.button("💰 主力选股", key="nav_main_force", help="基于主力资金流向的选股策略"):
                 st.session_state.show_main_force = True
                 for key in ['show_history', 'show_monitor', 'show_config', 'show_sector_strategy',
                            'show_longhubang', 'show_portfolio']:
@@ -315,14 +315,14 @@ def main():
         with st.expander("📊 策略分析", expanded=True):
             st.markdown("**AI驱动的板块和龙虎榜策略**")
 
-            if st.button("🎯 智策板块", width='stretch', key="nav_sector_strategy", help="AI板块策略分析"):
+            if st.button("🎯 智策板块", key="nav_sector_strategy", help="AI板块策略分析"):
                 st.session_state.show_sector_strategy = True
                 for key in ['show_history', 'show_monitor', 'show_config', 'show_main_force',
                            'show_longhubang', 'show_portfolio', 'show_smart_monitor']:
                     if key in st.session_state:
                         del st.session_state[key]
 
-            if st.button("🐉 智瞰龙虎", width='stretch', key="nav_longhubang", help="龙虎榜深度分析"):
+            if st.button("🐉 智瞰龙虎", key="nav_longhubang", help="龙虎榜深度分析"):
                 st.session_state.show_longhubang = True
                 for key in ['show_history', 'show_monitor', 'show_config', 'show_main_force',
                            'show_sector_strategy', 'show_portfolio', 'show_smart_monitor']:
@@ -333,21 +333,21 @@ def main():
         with st.expander("💼 投资管理", expanded=True):
             st.markdown("**持仓跟踪与实时监测**")
 
-            if st.button("📊 持仓分析", width='stretch', key="nav_portfolio", help="投资组合分析与定时跟踪"):
+            if st.button("📊 持仓分析", key="nav_portfolio", help="投资组合分析与定时跟踪"):
                 st.session_state.show_portfolio = True
                 for key in ['show_history', 'show_monitor', 'show_config', 'show_main_force',
                            'show_sector_strategy', 'show_longhubang', 'show_smart_monitor']:
                     if key in st.session_state:
                         del st.session_state[key]
 
-            if st.button("🤖 AI盯盘", width='stretch', key="nav_smart_monitor", help="DeepSeek AI自动盯盘决策交易（支持A股T+1）"):
+            if st.button("🤖 AI盯盘", key="nav_smart_monitor", help="DeepSeek AI自动盯盘决策交易（支持A股T+1）"):
                 st.session_state.show_smart_monitor = True
                 for key in ['show_history', 'show_monitor', 'show_config', 'show_main_force',
                            'show_sector_strategy', 'show_longhubang', 'show_portfolio']:
                     if key in st.session_state:
                         del st.session_state[key]
 
-            if st.button("📡 实时监测", width='stretch', key="nav_monitor", help="价格监控与预警提醒"):
+            if st.button("📡 实时监测", key="nav_monitor", help="价格监控与预警提醒"):
                 st.session_state.show_monitor = True
                 for key in ['show_history', 'show_main_force', 'show_longhubang', 'show_portfolio',
                            'show_config', 'show_sector_strategy', 'show_smart_monitor']:
@@ -357,7 +357,7 @@ def main():
         st.markdown("---")
 
         # 📖 历史记录
-        if st.button("📖 历史记录", width='stretch', key="nav_history", help="查看历史分析记录"):
+        if st.button("📖 历史记录", key="nav_history", help="查看历史分析记录"):
             st.session_state.show_history = True
             for key in ['show_monitor', 'show_longhubang', 'show_portfolio', 'show_config',
                        'show_main_force', 'show_sector_strategy']:
@@ -365,7 +365,7 @@ def main():
                     del st.session_state[key]
 
         # ⚙️ 环境配置
-        if st.button("⚙️ 环境配置", width='stretch', key="nav_config", help="系统设置与API配置"):
+        if st.button("⚙️ 环境配置", key="nav_config", help="系统设置与API配置"):
             st.session_state.show_config = True
             for key in ['show_history', 'show_monitor', 'show_main_force', 'show_sector_strategy',
                        'show_longhubang', 'show_portfolio']:
@@ -522,10 +522,10 @@ def main():
             )
 
         with col2:
-            analyze_button = st.button("🚀 开始分析", type="primary", width='stretch')
+            analyze_button = st.button("🚀 开始分析", type="primary")
 
         with col3:
-            if st.button("🔄 清除缓存", width='stretch'):
+            if st.button("🔄 清除缓存"):
                 st.cache_data.clear()
                 st.success("缓存已清除")
 
@@ -540,13 +540,13 @@ def main():
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            analyze_button = st.button("🚀 开始批量分析", type="primary", width='stretch')
+            analyze_button = st.button("🚀 开始批量分析", type="primary")
         with col2:
-            if st.button("🔄 清除缓存", width='stretch'):
+            if st.button("🔄 清除缓存"):
                 st.cache_data.clear()
                 st.success("缓存已清除")
         with col3:
-            if st.button("🗑️ 清除结果", width='stretch'):
+            if st.button("🗑️ 清除结果"):
                 if 'batch_analysis_results' in st.session_state:
                     del st.session_state.batch_analysis_results
                 st.success("已清除批量分析结果")
@@ -1817,10 +1817,10 @@ def display_add_to_monitor_dialog(record):
             col_a, col_b, col_c = st.columns(3)
 
             with col_a:
-                submit = st.form_submit_button("✅ 确认加入监测", type="primary", width='stretch')
+                submit = st.form_submit_button("✅ 确认加入监测", type="primary")
 
             with col_b:
-                cancel = st.form_submit_button("❌ 取消", width='stretch')
+                cancel = st.form_submit_button("❌ 取消")
 
             if submit:
                 if new_entry_min > 0 and new_entry_max > 0 and new_entry_max > new_entry_min:
@@ -2026,7 +2026,7 @@ def display_record_detail(record_id):
         col1, col2 = st.columns([1, 3])
 
         with col1:
-            if st.button("➕ 加入监测", type="primary", width='stretch'):
+            if st.button("➕ 加入监测", type="primary"):
                 st.session_state.add_to_monitor_id = record_id
                 st.rerun()
 
@@ -2342,7 +2342,7 @@ def display_config_manager():
 
             # 测试连通按钮
             if new_webhook_enabled and new_webhook_url:
-                if st.button("🧪 测试Webhook连通", width='stretch', key="test_webhook_btn"):
+                if st.button("🧪 测试Webhook连通", key="test_webhook_btn"):
                     with st.spinner("正在发送测试消息..."):
                         # 临时更新配置
                         temp_env_backup = {}
@@ -2391,7 +2391,7 @@ def display_config_manager():
     col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
 
     with col1:
-        if st.button("💾 保存配置", type="primary", width='stretch'):
+        if st.button("💾 保存配置", type="primary"):
             # 验证配置
             is_valid, message = config_manager.validate_config(st.session_state.temp_config)
 
@@ -2416,14 +2416,14 @@ def display_config_manager():
                 st.error(f"❌ 配置验证失败: {message}")
 
     with col2:
-        if st.button("🔄 重置", width='stretch'):
+        if st.button("🔄 重置"):
             # 重置为当前文件中的值
             st.session_state.temp_config = {key: info["value"] for key, info in config_info.items()}
             st.success("✅ 已重置为当前配置")
             st.rerun()
 
     with col3:
-        if st.button("⬅️ 返回", width='stretch'):
+        if st.button("⬅️ 返回"):
             if 'show_config' in st.session_state:
                 del st.session_state.show_config
             if 'temp_config' in st.session_state:
@@ -2577,7 +2577,6 @@ def display_comparison_table(results):
     # 显示表格（不使用样式，避免matplotlib导入问题）
     st.dataframe(
         df,
-        width='stretch',
         height=400
     )
 

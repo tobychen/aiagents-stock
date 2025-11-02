@@ -149,10 +149,10 @@ def display_analysis_tab():
     col1, col2, col3 = st.columns([2, 2, 2])
     
     with col1:
-        analyze_button = st.button("🚀 开始分析", type="primary", width='stretch')
+        analyze_button = st.button("🚀 开始分析", type="primary")
     
     with col2:
-        if st.button("🔄 清除结果", width='stretch'):
+        if st.button("🔄 清除结果"):
             if 'longhubang_result' in st.session_state:
                 del st.session_state.longhubang_result
             st.success("已清除分析结果")
@@ -428,7 +428,7 @@ def display_scoring_ranking(result):
     
     with col_batch3:
         st.write("")  # 占位
-        if st.button("🚀 开始批量分析", type="primary", width='stretch'):
+        if st.button("🚀 开始批量分析", type="primary"):
             # 提取股票代码
             stock_codes = top10_df.head(batch_count)['股票代码'].tolist()
             
@@ -732,7 +732,7 @@ def display_pdf_export_section(result):
         st.info("💡 点击按钮生成并下载专业分析报告")
     
     with col2:
-        if st.button("📥 生成PDF", type="primary", width='stretch'):
+        if st.button("📥 生成PDF", type="primary"):
             with st.spinner("正在生成PDF报告..."):
                 try:
                     generator = LonghubangPDFGenerator()
@@ -757,7 +757,7 @@ def display_pdf_export_section(result):
                     st.error(f"❌ PDF生成失败: {str(e)}")
     
     with col3:
-        if st.button("📝 生成Markdown", type="secondary", width='stretch'):
+        if st.button("📝 生成Markdown", type="secondary"):
             with st.spinner("正在生成Markdown报告..."):
                 try:
                     # 生成Markdown内容
@@ -1278,7 +1278,7 @@ def run_longhubang_batch_analysis():
         # 返回按钮
         col_back, col_clear = st.columns(2)
         with col_back:
-            if st.button("🔙 返回龙虎榜分析", width='stretch'):
+            if st.button("🔙 返回龙虎榜分析"):
                 # 清除所有批量分析相关状态
                 if 'longhubang_batch_trigger' in st.session_state:
                     del st.session_state.longhubang_batch_trigger
@@ -1289,7 +1289,7 @@ def run_longhubang_batch_analysis():
                 st.rerun()
         
         with col_clear:
-            if st.button("🔄 重新分析", width='stretch'):
+            if st.button("🔄 重新分析"):
                 # 清除结果，保留触发标志和代码
                 if 'longhubang_batch_results' in st.session_state:
                     del st.session_state.longhubang_batch_results
@@ -1350,11 +1350,11 @@ def run_longhubang_batch_analysis():
     
     start_analysis = False
     with col_confirm:
-        if st.button("🚀 确认开始分析", type="primary", width='stretch'):
+        if st.button("🚀 确认开始分析", type="primary"):
             start_analysis = True
     
     with col_cancel:
-        if st.button("❌ 取消", type="secondary", width='stretch'):
+        if st.button("❌ 取消", type="secondary"):
             # 清除所有批量分析相关状态
             if 'longhubang_batch_trigger' in st.session_state:
                 del st.session_state.longhubang_batch_trigger

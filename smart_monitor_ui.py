@@ -354,7 +354,7 @@ def render_monitor_tasks():
                 notify_email = st.text_input("通知邮箱（可选）")
             
             # 添加任务按钮（表单提交按钮）
-            submitted = st.form_submit_button("➕ 添加任务", type="primary", width='stretch')
+            submitted = st.form_submit_button("➕ 添加任务", type="primary")
         
         if submitted:
             # 验证必填项（form中直接使用局部变量）

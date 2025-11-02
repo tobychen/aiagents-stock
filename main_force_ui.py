@@ -30,7 +30,7 @@ def display_main_force_selector():
         st.markdown("## 🎯 主力选股 - 智能筛选优质标的")
     with col_history:
         st.write("")  # 占位
-        if st.button("📚 批量分析历史", width='content'):
+        if st.button("📚 批量分析历史"):
             st.session_state.main_force_view_history = True
             st.rerun()
 
@@ -140,7 +140,7 @@ def display_main_force_selector():
     st.markdown("---")
 
     # 开始分析按钮
-    if st.button("🚀 开始主力选股", type="primary", width='content'):
+    if st.button("🚀 开始主力选股", type="primary"):
 
         with st.spinner("正在获取数据并分析，这可能需要几分钟..."):
 
@@ -315,7 +315,7 @@ def display_analysis_results(result: dict, analyzer):
 
         with col_batch3:
             st.write("")  # 占位
-            if st.button("🚀 开始批量分析", type="primary", width='content'):
+            if st.button("🚀 开始批量分析", type="primary"):
                 # 准备数据：按主力资金净流入排序
                 df_sorted = analyzer.raw_stocks.copy()
 
@@ -503,7 +503,7 @@ def run_main_force_batch_analysis():
         # 返回按钮
         col_back, col_clear = st.columns(2)
         with col_back:
-            if st.button("🔙 返回主力选股", width='content'):
+            if st.button("🔙 返回主力选股"):
                 # 清除所有批量分析相关状态
                 if 'main_force_batch_trigger' in st.session_state:
                     del st.session_state.main_force_batch_trigger
@@ -514,7 +514,7 @@ def run_main_force_batch_analysis():
                 st.rerun()
 
         with col_clear:
-            if st.button("🔄 重新分析", width='content'):
+            if st.button("🔄 重新分析"):
                 # 清除结果，保留触发标志和代码
                 if 'main_force_batch_results' in st.session_state:
                     del st.session_state.main_force_batch_results
@@ -575,11 +575,11 @@ def run_main_force_batch_analysis():
 
     start_analysis = False
     with col_confirm:
-        if st.button("🚀 确认开始分析", type="primary", width='content'):
+        if st.button("🚀 确认开始分析", type="primary"):
             start_analysis = True
 
     with col_cancel:
-        if st.button("❌ 取消", type="secondary", width='content'):
+        if st.button("❌ 取消", type="secondary"):
             # 清除所有批量分析相关状态
             if 'main_force_batch_trigger' in st.session_state:
                 del st.session_state.main_force_batch_trigger
